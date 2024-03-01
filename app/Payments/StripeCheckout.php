@@ -101,7 +101,7 @@ class StripeCheckout {
         try {
             $event = \Stripe\Webhook::constructEvent(
                 get_request_content(),
-                request()->header('HTTP_STRIPE_SIGNATURE'),
+                $_SERVER['HTTP_STRIPE_SIGNATURE'],
                 $this->config['stripe_webhook_key']
             );
         } catch (\Stripe\Error\SignatureVerification $e) {
@@ -133,7 +133,7 @@ class StripeCheckout {
 
     private function exchange($from, $to)
     {
-        $result = file_get_contents('https://api.exchangerate.host/latest?symbols=' . $to . '&base=' . $from);
+        $result = file_get_contents('https://api.vatcomply.com/rates?base='. $from);
         $result = json_decode($result, true);
         return $result['rates'][$to];
     }
