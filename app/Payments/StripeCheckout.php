@@ -101,7 +101,7 @@ class StripeCheckout {
         try {
             $event = \Stripe\Webhook::constructEvent(
                 get_request_content(),
-                request()->header('HTTP_STRIPE_SIGNATURE'),
+                $_SERVER['HTTP_STRIPE_SIGNATURE'],
                 $this->config['stripe_webhook_key']
             );
         } catch (\Stripe\Error\SignatureVerification $e) {
